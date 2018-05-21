@@ -4,13 +4,13 @@ import getRedirectPath from '../util';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 const ERROR_MSG = 'ERROR_MSG';
+const LOAD_DATA = 'LOAD_DATA';
 
 const initState = {
   redirectTo: '',
   isAuth: false,
   msg: '',
   username: '',
-  pwd: '',
   type: '',
 };
 // reducer
@@ -32,6 +32,8 @@ export function user(state = initState, action) {
         isAuth: true,
         ...action.payload,
       };
+    case LOAD_DATA:
+      return { ...state, ...action.payload };
     case ERROR_MSG:
       return {
         ...state,
@@ -54,6 +56,10 @@ function registerSuccess(data) {
 
 function errorMsg(msg) {
   return { msg, type: ERROR_MSG };
+}
+
+export function loadData(userInfo) {
+  return { type: ERROR_MSG, payload: userInfo };
 }
 
 export function login({ username, pwd }) {
