@@ -7,9 +7,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   BrowserRouter,
   Route,
-  Redirect,
-  Switch,
+  // Redirect,
+  // Switch,
 } from 'react-router-dom';
+import Login from './container/login/login';
+import Register from './container/register/register';
 import reducers from './reducer';
 import './config';
 
@@ -23,6 +25,10 @@ ReactDom.render(
   (
     <Provider store={store}>
       <BrowserRouter>
+        <div>
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+        </div>
       </BrowserRouter>
     </Provider>
   ),
