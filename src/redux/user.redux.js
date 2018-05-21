@@ -1,9 +1,12 @@
 import axios from 'axios';
+import getRedirectPath from '../util';
 
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 const ERROR_MSG = 'ERROR_MSG';
 
 const initState = {
+  redirectTo: '',
   isAuth: false,
   msg: '',
   username: '',
@@ -17,6 +20,15 @@ export function user(state = initState, action) {
       return {
         ...state,
         msg: '',
+        redirectTo: getRedirectPath(action.payload),
+        isAuth: true,
+        ...action.payload,
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        msg: '',
+        redirectTo: getRedirectPath(action.payload),
         isAuth: true,
         ...action.payload,
       };
@@ -32,6 +44,10 @@ export function user(state = initState, action) {
   }
 }
 
+function loginSuccess(data) {
+  return { type: LOGIN_SUCCESS, payload: data };
+}
+
 function registerSuccess(data) {
   return { type: REGISTER_SUCCESS, payload: data };
 }
@@ -40,12 +56,26 @@ function errorMsg(msg) {
   return { msg, type: ERROR_MSG };
 }
 
+export function login({ username, pwd }) {
+  if (!username || !pwd) {
+    return errorMsg('用户名或密码不能为空！');
+  }
+  return (dispatch) => {
+    axios.post('/user/login', { username, pwd }).then((res) => {
+      if (res.status === 200 && res.data.code === 0) {
+        dispatch(loginSuccess(res.data.data));
+      } else {
+        dispatch(errorMsg(res.data.msg));
+      }
+    });
+  };
+}
+
 export function register({
   username, pwd, repwd, type,
 }) {
   if (!username || !pwd || !type) {
-    console.log(`${username},${pwd}, ${type}`);
-    return errorMsg('用户名密码不能为空！');
+    return errorMsg('用户名或密码不能为空！');
   }
   if (pwd !== repwd) {
     return errorMsg('两次输入密码不一致！');
