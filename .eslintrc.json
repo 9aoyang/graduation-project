@@ -1,15 +1,18 @@
 {
     "extends": "airbnb",
     "rules": {
+        "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/prefer-stateless-function": 0,
         "react/prop-types": 0,
-        "jsx-a11y/anchor-is-valid":0,
         "prefer-destructuring": ["error", {
             "array": false,
             "object": false
           }, {
             "enforceForRenamedProperties": false
-          }]
+          }],
+          "jsx-a11y/href-no-hash": "off",
+          "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
     },
     "env": {
         "es6": true,

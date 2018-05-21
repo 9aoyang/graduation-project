@@ -1,6 +1,6 @@
 import React from 'react';
-import Logo from '../../component/logo/logo';
 import { List, InputItem, WhiteSpace, WingBlank, Button } from 'antd-mobile';
+import Logo from '../../component/logo/logo';
 
 
 class Login extends React.Component {
@@ -9,7 +9,6 @@ class Login extends React.Component {
     this.register = this.register.bind(this);
   }
   register() {
-    console.log(this.props);
     this.props.history.push('/register');
   }
   render() {
